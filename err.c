@@ -1,5 +1,4 @@
 #include "shell.h"
-#include "custom_functions.c"
 
 /**
  * new_eputs - prints an input string

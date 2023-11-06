@@ -1,5 +1,4 @@
 #include "shell.h"
-#include "custom_functions.c"
 
 /**
  * clear_info - initializes info_t struct

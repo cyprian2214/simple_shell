@@ -1,5 +1,4 @@
 #include "shell.h"
-#include "custom_functions.c"
 
 /**
  * _myexit - exits the shell
