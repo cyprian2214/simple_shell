@@ -1,5 +1,5 @@
 #include "shell.h"
-
+#include "custom_functions.c"
 /**
  * interactive - returns true if shell is in interactive mode
  * @new_info: struct address

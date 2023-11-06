@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "custom_functions.c"
 
 /**
  * _myexit - exits the shell
@@ -9,24 +10,23 @@
  */
 int _myexit(new_info_t *new_info)
 {
-    int exitcheck;
+    int exit_status;
 
-    if (new_info->argv[1])  /* If there is an exit argument */
-    {
-        exitcheck = _erratoi(new_info->argv[1]);
-        if (exitcheck == -1)
-        {
-            new_info->status = 2;
+    if (new_info->argv[1]) {
+        exit_status = _erratoi(new_info->argv[1]);
+        if (exit_status == -1) {
             print_error(new_info, "Illegal number: ");
             _eputs(new_info->argv[1]);
             _eputchar('\n');
-            return (1);
+        } else {
+            new_info->err_num = exit_status;
+            return -1;
         }
-        new_info->err_num = _erratoi(new_info->argv[1]);
-        return (-2);
+    } else {
+        new_info->err_num = 0;
+        return -1;
     }
-    new_info->err_num = -1;
-    return (-2);
+    return 0;
 }
 
 /**
@@ -37,46 +37,36 @@ int _myexit(new_info_t *new_info)
  */
 int _mycd(new_info_t *new_info)
 {
-    char *s, *dir, buffer[1024];
+    char *dir, buffer[1024];
     int chdir_ret;
 
-    s = getcwd(buffer, 1024);
-    if (!s)
-        _puts("TODO: >>getcwd failure emsg here<<\n");
-    if (!new_info->argv[1])
-    {
+    if (!new_info->argv[1]) {
         dir = _getenv(new_info, "HOME=");
         if (!dir)
-            chdir_ret = /* TODO: what should this be? */
-                chdir((dir = _getenv(new_info, "PWD=")) ? dir : "/");
-        else
-            chdir_ret = chdir(dir);
-    }
-    else if (_strcmp(new_info->argv[1], "-") == 0)
-    {
-        if (!_getenv(new_info, "OLDPWD="))
-        {
-            _puts(s);
+            dir = _getenv(new_info, "PWD=");
+    } else if (_strcmp(new_info->argv[1], "-") == 0) {
+        dir = _getenv(new_info, "OLDPWD=");
+        if (!dir) {
+            dir = _getenv(new_info, "PWD=");
+            _puts(dir);
             _putchar('\n');
-            return (1);
+            return 1;
         }
-        _puts(_getenv(new_info, "OLDPWD=")), _putchar('\n');
-        chdir_ret = /* TODO: what should this be? */
-            chdir((dir = _getenv(new_info, "OLDPWD=")) ? dir : "/");
+    } else {
+        dir = new_info->argv[1];
     }
-    else
-        chdir_ret = chdir(new_info->argv[1]);
-    if (chdir_ret == -1)
-    {
+
+    chdir_ret = chdir(dir);
+    if (chdir_ret == -1) {
         print_error(new_info, "can't cd to ");
-        _eputs(new_info->argv[1]), _eputchar('\n');
-    }
-    else
-    {
+        _eputs(dir);
+        _eputchar('\n');
+    } else {
         _setenv(new_info, "OLDPWD", _getenv(new_info, "PWD="));
         _setenv(new_info, "PWD", getcwd(buffer, 1024));
     }
-    return (0);
+
+    return 0;
 }
 
 /**

@@ -24,55 +24,55 @@
 #define CMD_CHAIN   3
 
 /* for convert_number() */
-#define CONVERT_LOWERCASE 1
-#define CONVERT_UNSIGNED  2
+#define CONVERT_LOWERCASE   1
+#define CONVERT_UNSIGNED    2
 
 /* 1 if using system getline() */
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
-#define HIST_FILE    ".simple_shell_history"
-#define HIST_MAX     4096
+#define HIST_FILE   ".simple_shell_history"
+#define HIST_MAX    4096
 
 extern char **environ;
 
 
 /**
- * struct liststr - singly linked list
+ * struct new_liststr - singly linked list
  * @num: the number field
  * @str: a string
  * @next: points to the next node
  */
-typedef struct liststr
+typedef struct new_liststr
 {
     int num;
     char *str;
-    struct liststr *next;
+    struct new_liststr *next;
 } new_list_t;
 
 /**
- * struct passinfo - contains pseudo-arguements to pass into a function,
+ *struct passinfo - contains pseudo-arguements to pass into a function,
  *      allowing uniform prototype for function pointer struct
- * @arg: a string generated from getline containing arguements
- * @argv: an array of strings generated from arg
- * @path: a string path for the current command
- * @argc: the argument count
- * @line_count: the error count
- * @err_num: the error code for exit()s
- * @linecount_flag: if on count this line of input
- * @fname: the program filename
- * @env: linked list local copy of environ
- * @environ: custom modified copy of environ from LL env
- * @history: the history node
- * @alias: the alias node
- * @env_changed: on if environ was changed
- * @status: the return status of the last exec'd command
- * @cmd_buf: address of pointer to cmd_buf, on if chaining
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @readfd: the fd from which to read line input
- * @histcount: the history line number count
+ *@arg: a string generated from getline containing arguements
+ *@argv: an array of strings generated from arg
+ *@path: a string path for the current command
+ *@argc: the argument count
+ *@line_count: the error count
+ *@err_num: the error code for exit()s
+ *@linecount_flag: if on count this line of input
+ *@fname: the program filename
+ *@env: linked list local copy of environ
+ *@environ: custom modified copy of environ from LL env
+ *@history: the history node
+ *@alias: the alias node
+ *@env_changed: on if environ was changed
+ *@status: the return status of the last exec'd command
+ *@cmd_buf: address of pointer to cmd_buf, on if chaining
+ *@cmd_buf_type: CMD_type ||, &&, ;
+ *@readfd: the fd from which to read line input
+ *@histcount: the history line number count
  */
-typedef struct passinfo
+typedef struct new_passinfo
 {
     char *arg;
     char **argv;
@@ -100,9 +100,9 @@ typedef struct passinfo
     0, 0, 0}
 
 /**
- * struct builtin - contains a builtin string and related function
- * @type: the builtin command flag
- * @func: the function
+ *struct builtin - contains a builtin string and related function
+ *@type: the builtin command flag
+ *@func: the function
  */
 typedef struct builtin
 {
@@ -214,14 +214,14 @@ int renumber_history(new_info_t *new_info);
 /* toem_lists.c */
 new_list_t *add_node(new_list_t **, const char *, int);
 new_list_t *add_node_end(new_list_t **, const char *, int);
-size_t print_list_str(const new_list_t *);
+size_t new_print_list_str(const new_list_t *);
 int delete_node_at_index(new_list_t **, unsigned int);
 void free_list(new_list_t **);
 
 /* toem_lists1.c */
 size_t list_len(const new_list_t *);
 char **list_to_strings(new_list_t *);
-size_t print_list(const new_list_t *);
+size_t new_print_list(const new_list_t *);
 new_list_t *node_starts_with(new_list_t *, char *, char);
 ssize_t get_node_index(new_list_t *, new_list_t *);
 

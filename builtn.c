@@ -9,7 +9,7 @@
  */
 int _myhistory(new_info_t *new_info)
 {
-    print_list(new_info->history);
+    new_print_list(new_info->history);
     return (0);
 }
 

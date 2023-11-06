@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "custom_functions.c"
 
 /**
  * new_list_len - determines length of linked list
