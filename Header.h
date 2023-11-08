@@ -9,7 +9,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-/* global variable */
-extern char **environment;
-size_t custom_strlen(const char *str);
+/* global variables */
+extern char **environ;
 #endif
